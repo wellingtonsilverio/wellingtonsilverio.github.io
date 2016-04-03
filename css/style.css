@@ -262,6 +262,7 @@ nav a.button-collapse {
 
 footer.page-footer {
     margin-top: 0px !important;
+<<<<<<< HEAD
 }
 #skills{
     margin-top: -350px;
@@ -269,4 +270,6 @@ footer.page-footer {
 
 #skills .container h2{
     text-shadow: 2px 2px 10px rgba(0,0,0,.8);
+=======
+>>>>>>> 6d0b144b82134367fc6a63d1700fa90aea0eac30
 }
