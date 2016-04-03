@@ -7066,7 +7066,7 @@ select {
     right: 0;
     left: auto; }
 
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width : 1192px) {
   .side-nav.fixed {
     left: -105%; }
     .side-nav.fixed.right-aligned {
