@@ -270,3 +270,13 @@ footer.page-footer {
 #skills .container h2{
     text-shadow: 2px 2px 10px rgba(0,0,0,.8);
 }
+.budget-enterprise > .budget-card > .card{
+  height:250px;
+}
+
+.margin-5px{
+    margin: 5px;
+}
+.hidden{
+    display: none;
+}
