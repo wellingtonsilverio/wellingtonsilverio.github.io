@@ -186,12 +186,6 @@
               </div>
               <button type="submit" class="btn btn-dark btn-block btn-lg text-uppercase">Enviar orçamento</button>
             </form>
-            <form action="https://formspree.io/wellington.alves.silverio@gmail.com"
-                  method="POST">
-                <input type="text" name="name">
-                <input type="email" name="_replyto">
-                <input type="submit" value="Send">
-            </form>
           </div>
         </div>
       </div>
@@ -263,7 +257,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="src/jquery/jquery-3.2.1.slim.min.js"></script>
+    <script src="src/jquery/jquery-3.3.1.min.js"></script>
     <script src="src/popper.js/popper.min.js"></script>
     <script src="src/bootstrap/js/bootstrap.min.js"></script>
     <script>
@@ -277,7 +271,7 @@
       	    data: {
       	    	name: $("#inputName").val(),
       	    	email: $("#inputEmail").val(),
-      	    	message: "Empresa: " + $("#inputEnt").val() + ", Tipo do Projeto:" + $("#selectProject").val() + ", Valor Maximo:" + $("#inputAmount").val() + ", Data Limite:" + $("#inputDate").val() + "<p>" + $("#formControlTextarea").val()+ "</p>"
+      	    	message: $("#formControlTextarea").val()
       	    },
       	    dataType: "json"
       		}).done(function(){
