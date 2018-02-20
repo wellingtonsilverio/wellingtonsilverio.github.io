@@ -130,21 +130,21 @@
       <div class="container">
         <div class="row">
           <div class="col">
-            <form id="form" method="POST">
+            <form action="https://formspree.io/wellington.alves.silverio@gmail.com" method="POST">
               <div class="form-group">
                 <label for="inputName">Nome</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Digite seu nome completo">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome completo">
               </div>
 
               <div class="form-group">
                 <label for="inputEmail">E-mail para contato</label>
-                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Digite seu e-mail para entramos em contato">
+                <input type="email" class="form-control" id="_replyto" name="_replyto" aria-describedby="emailHelp" placeholder="Digite seu e-mail para entramos em contato">
                 <small id="emailHelp" class="form-text text-muted">Use o e-mail da empresa caso tenha este.</small>
               </div>
 
               <div class="form-group">
                 <label for="inputEnt">Empresa ou organização</label>
-                <input type="text" class="form-control" id="inputEnt" aria-describedby="entHelp" placeholder="Nome da empresa que sera feito o projeto">
+                <input type="text" class="form-control" id="inputEnt" name="inputEnt" aria-describedby="entHelp" placeholder="Nome da empresa que sera feito o projeto">
                 <small id="emailHelp" class="form-text text-muted">Deixe em branco caso o projeto é pessoal.</small>
               </div>
 
@@ -167,7 +167,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">R$</span>
                   </div>
-                  <input type="number" class="form-control" id="inputAmount" aria-label="Quantidade (em reais)">
+                  <input type="number" class="form-control" id="inputAmount" name="inputAmount" aria-label="Quantidade (em reais)">
                   <div class="input-group-append">
                     <span class="input-group-text">.00</span>
                   </div>
@@ -176,13 +176,13 @@
 
               <div class="form-group">
                 <label for="inputDate">Data Limite</label>
-                <input type="date" class="form-control" id="inputDate" aria-describedby="dateHelp" placeholder="Data final">
+                <input type="date" class="form-control" id="inputDate" name="inputDate" aria-describedby="dateHelp" placeholder="Data final">
                 <small id="dateHelp" class="form-text text-muted">Qual a data maxima para entrega do projeto.</small>
               </div>
 
               <div class="form-group">
                 <label for="formControlTextarea">Detalhes do projeto</label>
-                <textarea class="form-control" id="formControlTextarea" rows="3"></textarea>
+                <textarea class="form-control" id="formControlTextarea" name="message" rows="3"></textarea>
               </div>
               <button type="submit" class="btn btn-dark btn-block btn-lg text-uppercase">Enviar orçamento</button>
             </form>
@@ -262,27 +262,7 @@
     <script src="src/bootstrap/js/bootstrap.min.js"></script>
     <script>
       $( document ).ready(function() {
-        $("form").submit(function(event) {
-      		event.preventDefault();
 
-      		$.ajax({
-      	    url: "https://formspree.io/wellington.alves.silverio@gmail.com",
-      	    method: "POST",
-      	    data: {
-      	    	name: $("#inputName").val(),
-      	    	email: $("#inputEmail").val(),
-      	    	message: $("#formControlTextarea").val()
-      	    },
-      	    dataType: "json"
-      		}).done(function(){
-      			$("#inputName").val("");
-      			$("#inputEmail").val("");
-      			$("#formControlTextarea").val("");
-      			alert("Orçamento enviado com sucesso!");
-      		}).fail(function(){
-      			alert("Erro ao enviar, tente mais tarde!");
-      		});
-        });
       });
     </script>
   </body>
