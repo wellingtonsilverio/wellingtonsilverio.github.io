@@ -130,7 +130,7 @@
       <div class="container">
         <div class="row">
           <div class="col">
-            <form>
+            <form id="form" method="POST">
               <div class="form-group">
                 <label for="inputName">Nome</label>
                 <input type="text" class="form-control" id="inputName" placeholder="Digite seu nome completo">
@@ -167,7 +167,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">R$</span>
                   </div>
-                  <input type="number" class="form-control" aria-label="Quantidade (em reais)">
+                  <input type="number" class="form-control" id="inputAmount" aria-label="Quantidade (em reais)">
                   <div class="input-group-append">
                     <span class="input-group-text">.00</span>
                   </div>
@@ -262,7 +262,27 @@
     <script src="src/bootstrap/js/bootstrap.min.js"></script>
     <script>
       $( document ).ready(function() {
-        $('.datepicker').datepicker();
+        $("form").submit(function(event) {
+      		event.preventDefault();
+
+      		$.ajax({
+      	    url: "https://formspree.io/wellington.alves.silverio@gmail.com",
+      	    method: "POST",
+      	    data: {
+      	    	name: $("#inputName").val(),
+      	    	email: $("#inputEmail").val(),
+      	    	message: "Empresa: " + $("#inputEnt").val() + ", Tipo do Projeto:" + $("#selectProject").val() + ", Valor Maximo:" + $("#inputAmount").val() + ", Data Limite:" + $("#inputDate").val() + "<p>" + $("#formControlTextarea").val()+ "</p>"
+      	    },
+      	    dataType: "json"
+      		}).done(function(){
+      			$("#inputName").val("");
+      			$("#inputEmail").val("");
+      			$("#formControlTextarea").val("");
+      			alert("Orçamento enviado com sucesso!");
+      		}).fail(function(){
+      			alert("Erro ao enviar, tente mais tarde!");
+      		});
+        });
       });
     </script>
   </body>
