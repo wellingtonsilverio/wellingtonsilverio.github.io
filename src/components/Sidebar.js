@@ -12,6 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import SchoolIcon from "@mui/icons-material/School";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import TagIcon from "@mui/icons-material/Tag";
 import { useChatStore } from '../services/chat';
 
 function Sidebar() {
@@ -41,10 +42,10 @@ function Sidebar() {
             <SidebarOption Icon={AddIcon} title="Adicionar canais" />
             <hr />
             <SidebarOption Icon={ExpandMoreIcon} title="Mensagens diretas" />
+            <SidebarOption Icon={TagIcon} key="wellingtonsilverio" id="wellingtonsilverio" title="wellingtonsilverio" />
             {Object.keys(channel).map((channelName) => (
                 <SidebarOption key={channelName} id={channelName} title={channelName} />
             ))}
-            <SidebarOption Icon={AddIcon} addChannelOption title="Abra uma mensagem direta" />
         </SidebarContainer>
     );
 };
