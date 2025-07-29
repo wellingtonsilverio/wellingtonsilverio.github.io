@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { useChatStore } from "./services/chat";
 
 const ChatInput = ({ channelName, channelId, userName, chatRef }) => {

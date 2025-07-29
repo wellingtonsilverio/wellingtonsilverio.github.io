@@ -23,33 +23,15 @@ function App() {
           <AppBody>
             <Sidebar />
             <Routes>
-              <Route exact path="/"
-                element={<About />}>
-              </Route>
-              <Route exact path="/about"
-                element={<About />}>
-              </Route>
-              <Route exact path="/projects"
-                element={<Projects />}>
-              </Route>
-              <Route exact path="/experiences"
-                element={<Experiences />}>
-              </Route>
-              <Route exact path="/academics"
-                element={<Academics />}>
-              </Route>
-              <Route exact path="/hobbies"
-                element={<Hobbies />}>
-              </Route>
-              <Route exact path="/budget"
-                element={<Budget />}>
-              </Route>
-              <Route exact path="/faq"
-                element={<FAQ />}>
-              </Route>
-              <Route exact path="/contact"
-                element={<Contact />}>
-              </Route>
+              <Route exact path="/" element={<About />} />
+              <Route exact path="/about" element={<About />} />
+              <Route exact path="/projects" element={<Projects />} />
+              <Route exact path="/experiences" element={<Experiences />} />
+              <Route exact path="/academics" element={<Academics />} />
+              <Route exact path="/hobbies" element={<Hobbies />} />
+              <Route exact path="/budget" element={<Budget />} />
+              <Route exact path="/faq" element={<FAQ />} />
+              <Route exact path="/contact" element={<Contact />} />
             </Routes>
           </AppBody>
         </>
