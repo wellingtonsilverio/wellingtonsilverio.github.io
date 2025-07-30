@@ -52,12 +52,16 @@ const HeaderSearch = styled.div`
 const HeaderContainer = styled.div`
   display: flex;
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  background-color: var(--slack-color);
+  background-color: #3f0f48;
   color: white;
+  z-index: 1000;
 `
 
 const HeaderLeft = styled.div`

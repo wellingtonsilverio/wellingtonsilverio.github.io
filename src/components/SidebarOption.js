@@ -1,13 +1,12 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { enterRoom } from "../features/appSlice";
+import { useAppStore } from "../services/app";
 import { useChatStore } from "../services/chat";
 
 function SidebarOption({ Icon, title, addChannelOption, id, goTo }) {
     const navigate = useNavigate();
     const { addChannel: addChannelStore } = useChatStore();
-    const dispatch = useDispatch();
+    const { enterRoom } = useAppStore();
 
     const addChannel = () => {
         const channelName = prompt("Please enter the channel name !");
@@ -19,11 +18,7 @@ function SidebarOption({ Icon, title, addChannelOption, id, goTo }) {
 
     const selectChannel = () => {
         if (id) {
-            dispatch(
-                enterRoom({
-                    roomId: id,
-                })
-            );
+            enterRoom(id);
         }
     };
 

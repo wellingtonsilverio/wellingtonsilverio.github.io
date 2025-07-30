@@ -3,17 +3,82 @@
 }
 
 body {
-  --slack-color:#3f0f48;
-	overflow: hidden;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  --slack-color: #3f0f48;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Custom Scrollbar - Slack Style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5ca0e1;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 transparent;
+}
+
+/* Remove default scrollbar for specific elements */
+.app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Global styles for chat pages */
+.chat-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.chat-input-container {
+  position: sticky;
+  bottom: 0;
+  background: #1b1d21;
+  border-top: 1px solid #ffffff22;
+  z-index: 10;
+}
+
+/* Remove scrollbars from specific containers */
+.sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Ensure proper layout for all pages */
+.page-container {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

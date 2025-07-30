@@ -5,14 +5,14 @@ import CreateIcon from '@mui/icons-material/Create';
 // import ReceiptIcon from '@mui/icons-material/Receipt';
 // import CallIcon from '@mui/icons-material/Call';
 // import QuizIcon from '@mui/icons-material/Quiz';
-// import AppsIcon from "@mui/icons-material/Apps";
+import AppsIcon from "@mui/icons-material/Apps";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
 import PersonIcon from "@mui/icons-material/Person";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import SchoolIcon from "@mui/icons-material/School";
 // import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-// import TagIcon from "@mui/icons-material/Tag";
+import TagIcon from "@mui/icons-material/Tag";
 // import { useChatStore } from '../services/chat';
 
 function Sidebar() {
@@ -32,7 +32,7 @@ function Sidebar() {
             </SidebarHeader>
             <SidebarOption Icon={ExpandMoreIcon} title="Canais" />
             <SidebarOption Icon={PersonIcon} title="Sobre" goTo="/about" />
-            {/* <SidebarOption Icon={AppsIcon} title="Projetos Recentes" goTo="/projects" /> */}
+            <SidebarOption Icon={AppsIcon} title="Projetos Recentes" goTo="/projects" />
             <SidebarOption Icon={BusinessCenterIcon} title="Experiências Profissionais" goTo="/experiences" />
             <SidebarOption Icon={SchoolIcon} title="Formação Acadêmica" goTo="/academics" />
             {/* <SidebarOption Icon={FitnessCenterIcon} title="Hobbies" goTo="/hobbies" /> */}
@@ -42,8 +42,8 @@ function Sidebar() {
             <SidebarOption Icon={AddIcon} title="Adicionar canais" />
             <hr />
             <SidebarOption Icon={ExpandMoreIcon} title="Mensagens diretas" />
-            {/* <SidebarOption Icon={TagIcon} key="wellingtonsilverio" id="wellingtonsilverio" title="wellingtonsilverio" />
-            {Object.keys(channel).map((channelName) => (
+            <SidebarOption Icon={TagIcon} goTo="/chat" key="wellingtonsilverio" id="wellingtonsilverio" title="wellingtonsilverio" />
+            {/* {Object.keys(channel).map((channelName) => (
                 <SidebarOption key={channelName} id={channelName} title={channelName} />
             ))} */}
         </SidebarContainer>
@@ -54,11 +54,13 @@ export default Sidebar;
 
 const SidebarContainer = styled.div`
     color: white;
-    background-color: var(--slack-color);
+    background-color: #3f0f48;
     flex: 0.3;
     border-top: 1px solid #49274b;
     max-width: 260px;
     margin-top: 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
     
     > hr {
         margin-top: 10px;

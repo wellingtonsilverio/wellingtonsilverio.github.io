@@ -12,6 +12,7 @@ import Hobbies from './pages/Hobbies';
 import Budget from './pages/Budget';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import Chat from './pages/Chat';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route exact path="/budget" element={<Budget />} />
               <Route exact path="/faq" element={<FAQ />} />
               <Route exact path="/contact" element={<Contact />} />
+              <Route exact path="/chat" element={<Chat />} />
             </Routes>
           </AppBody>
         </>

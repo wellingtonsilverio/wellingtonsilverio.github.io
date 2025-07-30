@@ -1,7 +1,15 @@
 import { create } from 'zustand'
 
 export const useChatStore = create((set) => ({
-  channel: {},
+  channel: {
+    wellingtonsilverio: [
+      {
+        user: "wellingtonsilverio",
+        message: "Olá, como posso ajudar você?",
+        timestamp: new Date().toISOString(),
+      }
+    ]
+  },
   addChannel: (channelId) => set((state) => ({
     channel: {
       ...state.channel,
