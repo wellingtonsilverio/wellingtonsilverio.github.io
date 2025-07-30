@@ -174,11 +174,20 @@ function Chat() {
                                 );
                                 const isCurrentSearchResult = searchResults[currentSearchIndex]?.originalIndex === index;
 
+                                // Verificar se deve mostrar a data
+                                const shouldShowDate = () => {
+                                    if (index === 0) return true;
+
+                                    const currentDate = new Date(timestamp).toDateString();
+                                    const previousDate = new Date(roomMessages[index - 1].timestamp).toDateString();
+
+                                    return currentDate !== previousDate;
+                                };
+
                                 return (
-                                    <div>
-                                        <HRDateSteled date={timestamp} />
+                                    <div key={timestamp}>
+                                        {shouldShowDate() && <HRDateSteled date={timestamp} />}
                                         <Message
-                                            key={timestamp}
                                             message={msg}
                                             timestamp={timestamp}
                                             user={user}
@@ -190,7 +199,6 @@ function Chat() {
                                             isCurrentSearchResult={isCurrentSearchResult}
                                         />
                                     </div>
-
                                 );
                             })}
 
@@ -417,5 +425,5 @@ const HRDateSteled = styled(HRDate)`
 `;
 
 const ChatBottom = styled.div`
-  padding-bottom: 200px;
+  margin-bottom: 16px;
 `;
