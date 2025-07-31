@@ -4,6 +4,8 @@ import Sidebar from "./components/Sidebar";
 import styled from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { useChatStore } from './services/chat';
+
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Experiences from './pages/Experiences';
@@ -16,6 +18,13 @@ import Chat from './pages/Chat';
 
 
 function App() {
+  const { checkAPIHealth } = useChatStore();
+
+  // Verificar status da API ao carregar
+  useEffect(() => {
+    checkAPIHealth();
+  }, [checkAPIHealth]);
+
   return (
     <div className="app">
       <Router>
