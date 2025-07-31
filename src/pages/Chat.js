@@ -6,7 +6,7 @@ import CallIcon from "@mui/icons-material/Call";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import CircularProgress from "@mui/material/CircularProgress";
 import ChatInput from "../components/ChatInput";
 import Message from "../components/Message";
 import { useChatStore } from "../services/chat";
@@ -14,208 +14,238 @@ import { useAppStore } from "../services/app";
 import HRDate from "../components/HRDate";
 
 function Chat() {
-    const { channel } = useChatStore();
-    const chatRef = useRef(null);
-    const { roomId } = useAppStore();
-    const roomMessages = channel[roomId];
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-    const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
-    const searchRefs = useRef({});
+  const { channel, loading, error, checkAPIHealth } = useChatStore();
+  const chatRef = useRef(null);
+  const { roomId } = useAppStore();
+  const roomMessages = channel[roomId];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [currentSearchIndex, setCurrentSearchIndex] = useState(0);
+  const [apiStatus, setApiStatus] = useState(null);
+  const searchRefs = useRef({});
 
-    useEffect(() => {
-        chatRef?.current?.scrollIntoView({
-            behavior: "smooth",
-        });
-    }, [roomId]);
+  useEffect(() => {
+    chatRef?.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [roomId]);
 
-    // Função de busca
-    const handleSearch = (term) => {
-        setSearchTerm(term);
-        if (!term.trim() || !roomMessages) {
-            setSearchResults([]);
-            setCurrentSearchIndex(0);
-            return;
+  // Verificar status da API ao carregar
+  useEffect(() => {
+    const checkAPI = async () => {
+      const isHealthy = await checkAPIHealth();
+      setApiStatus(isHealthy);
+    };
+    checkAPI();
+  }, [checkAPIHealth]);
+
+  // Função de busca
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    if (!term.trim() || !roomMessages) {
+      setSearchResults([]);
+      setCurrentSearchIndex(0);
+      return;
+    }
+
+    const results = roomMessages
+      .map((message, index) => ({
+        ...message,
+        originalIndex: index,
+      }))
+      .filter((message) =>
+        message.message.toLowerCase().includes(term.toLowerCase()) ||
+        message.user.toLowerCase().includes(term.toLowerCase())
+      );
+
+    setSearchResults(results);
+    setCurrentSearchIndex(0);
+
+    // Scroll para o primeiro resultado
+    if (results.length > 0) {
+      setTimeout(() => {
+        const firstResult = searchRefs.current[results[0].originalIndex];
+        if (firstResult) {
+          firstResult.scrollIntoView({ behavior: "smooth", block: "center" });
         }
+      }, 100);
+    }
+  };
 
-        const results = roomMessages
-            .map((message, index) => ({
-                ...message,
-                originalIndex: index,
-            }))
-            .filter((message) =>
-                message.message.toLowerCase().includes(term.toLowerCase()) ||
-                message.user.toLowerCase().includes(term.toLowerCase())
-            );
+  // Navegar entre resultados
+  const navigateSearchResults = (direction) => {
+    if (searchResults.length === 0) return;
 
-        setSearchResults(results);
-        setCurrentSearchIndex(0);
+    let newIndex;
+    if (direction === 'next') {
+      newIndex = (currentSearchIndex + 1) % searchResults.length;
+    } else {
+      newIndex = currentSearchIndex === 0 ? searchResults.length - 1 : currentSearchIndex - 1;
+    }
 
-        // Scroll para o primeiro resultado
-        if (results.length > 0) {
-            setTimeout(() => {
-                const firstResult = searchRefs.current[results[0].originalIndex];
-                if (firstResult) {
-                    firstResult.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-            }, 100);
+    setCurrentSearchIndex(newIndex);
+    const result = searchResults[newIndex];
+    const element = searchRefs.current[result.originalIndex];
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  // Keyboard shortcuts para busca
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'f') {
+          e.preventDefault();
+          document.getElementById('search-input')?.focus();
         }
+      }
+      if (searchTerm && searchResults.length > 0) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          navigateSearchResults('next');
+        }
+      }
     };
 
-    // Navegar entre resultados
-    const navigateSearchResults = (direction) => {
-        if (searchResults.length === 0) return;
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [searchTerm, searchResults, currentSearchIndex]);
 
-        let newIndex;
-        if (direction === 'next') {
-            newIndex = (currentSearchIndex + 1) % searchResults.length;
-        } else {
-            newIndex = currentSearchIndex === 0 ? searchResults.length - 1 : currentSearchIndex - 1;
-        }
+  return (
+    <Body>
+      <ChatContainer>
+        {roomMessages && (
+          <>
+            <Header>
+              <HeaderLeft>
+                <ChannelInfo>
+                  <ChannelName>
+                    <strong>#wellingtonsilverio</strong>
+                  </ChannelName>
+                  <ChannelMeta>
+                    <StarBorderOutlinedIcon />
+                    <UserCount>{roomMessages.length}</UserCount>
+                    <AttachFileIcon />
+                    <AttachmentCount>0</AttachmentCount>
+                    <AddTopic>Add a topic</AddTopic>
+                    {apiStatus !== null && (
+                      <ApiStatus isOnline={apiStatus}>
+                        {apiStatus ? '🟢 Online' : '🔴 Offline'}
+                      </ApiStatus>
+                    )}
+                  </ChannelMeta>
+                </ChannelInfo>
+              </HeaderLeft>
 
-        setCurrentSearchIndex(newIndex);
-        const result = searchResults[newIndex];
-        const element = searchRefs.current[result.originalIndex];
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-    };
+              <HeaderRight>
+                <HeaderIcons>
+                  <IconButton>
+                    <CallIcon />
+                  </IconButton>
+                  <IconButton>
+                    <InfoOutlinedIcon />
+                  </IconButton>
+                  <SearchContainer>
+                    <SearchIcon />
+                    <SearchInput
+                      id="search-input"
+                      placeholder="Search"
+                      value={searchTerm}
+                      onChange={(e) => handleSearch(e.target.value)}
+                    />
+                    {searchTerm && searchResults.length > 0 && (
+                      <SearchResults>
+                        {currentSearchIndex + 1} of {searchResults.length}
+                        <SearchNav>
+                          <SearchNavButton onClick={() => navigateSearchResults('prev')}>
+                            ↑
+                          </SearchNavButton>
+                          <SearchNavButton onClick={() => navigateSearchResults('next')}>
+                            ↓
+                          </SearchNavButton>
+                        </SearchNav>
+                      </SearchResults>
+                    )}
+                  </SearchContainer>
+                  <IconButton>
+                    <span>@</span>
+                  </IconButton>
+                  <IconButton>
+                    <StarBorderOutlinedIcon />
+                  </IconButton>
+                  <IconButton>
+                    <MoreVertIcon />
+                  </IconButton>
+                </HeaderIcons>
+              </HeaderRight>
+            </Header>
 
-    // Keyboard shortcuts para busca
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === 'f') {
-                    e.preventDefault();
-                    document.getElementById('search-input')?.focus();
-                }
-            }
-            if (searchTerm && searchResults.length > 0) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    navigateSearchResults('next');
-                }
-            }
-        };
+            <ChatMessages>
+              {roomMessages?.map((message, index) => {
+                const { user, message: msg, timestamp } = message;
+                const isSearchResult = searchResults.some(
+                  result => result.originalIndex === index
+                );
+                const isCurrentSearchResult = searchResults[currentSearchIndex]?.originalIndex === index;
 
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [searchTerm, searchResults, currentSearchIndex]);
+                // Verificar se deve mostrar a data
+                const shouldShowDate = () => {
+                  if (index === 0) return true;
 
-    return (
-        <Body>
-            <ChatContainer>
-                {roomMessages && (
-                    <>
-                        <Header>
-                            <HeaderLeft>
-                                <ChannelInfo>
-                                    <ChannelName>
-                                        <strong>#wellingtonsilverio</strong>
-                                    </ChannelName>
-                                    <ChannelMeta>
-                                        <StarBorderOutlinedIcon />
-                                        <UserCount>25</UserCount>
-                                        <AttachFileIcon />
-                                        <AttachmentCount>1</AttachmentCount>
-                                        <AddTopic>Add a topic</AddTopic>
-                                    </ChannelMeta>
-                                </ChannelInfo>
-                            </HeaderLeft>
+                  const currentDate = new Date(timestamp).toDateString();
+                  const previousDate = new Date(roomMessages[index - 1].timestamp).toDateString();
 
-                            <HeaderRight>
-                                <HeaderIcons>
-                                    <IconButton>
-                                        <CallIcon />
-                                    </IconButton>
-                                    <IconButton>
-                                        <InfoOutlinedIcon />
-                                    </IconButton>
-                                    <SearchContainer>
-                                        <SearchIcon />
-                                        <SearchInput
-                                            id="search-input"
-                                            placeholder="Search"
-                                            value={searchTerm}
-                                            onChange={(e) => handleSearch(e.target.value)}
-                                        />
-                                        {searchTerm && searchResults.length > 0 && (
-                                            <SearchResults>
-                                                {currentSearchIndex + 1} of {searchResults.length}
-                                                <SearchNav>
-                                                    <SearchNavButton onClick={() => navigateSearchResults('prev')}>
-                                                        ↑
-                                                    </SearchNavButton>
-                                                    <SearchNavButton onClick={() => navigateSearchResults('next')}>
-                                                        ↓
-                                                    </SearchNavButton>
-                                                </SearchNav>
-                                            </SearchResults>
-                                        )}
-                                    </SearchContainer>
-                                    <IconButton>
-                                        <span>@</span>
-                                    </IconButton>
-                                    <IconButton>
-                                        <StarBorderOutlinedIcon />
-                                    </IconButton>
-                                    <IconButton>
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                </HeaderIcons>
-                            </HeaderRight>
-                        </Header>
+                  return currentDate !== previousDate;
+                };
 
-                        <ChatMessages>
-                            {roomMessages?.map((message, index) => {
-                                const { user, message: msg, timestamp } = message;
-                                const isSearchResult = searchResults.some(
-                                    result => result.originalIndex === index
-                                );
-                                const isCurrentSearchResult = searchResults[currentSearchIndex]?.originalIndex === index;
+                return (
+                  <div key={timestamp}>
+                    {shouldShowDate() && <HRDateSteled date={timestamp} />}
+                    <Message
+                      message={msg}
+                      timestamp={timestamp}
+                      user={user}
+                      userImage={''}
+                      ref={(el) => {
+                        searchRefs.current[index] = el;
+                      }}
+                      isSearchResult={isSearchResult}
+                      isCurrentSearchResult={isCurrentSearchResult}
+                    />
+                  </div>
+                );
+              })}
 
-                                // Verificar se deve mostrar a data
-                                const shouldShowDate = () => {
-                                    if (index === 0) return true;
+              {loading && (
+                <LoadingMessage>
+                  <LoadingContainer>
+                    <CircularProgress size={20} style={{ color: '#5ca0e1' }} />
+                    <LoadingText>Wellington está digitando...</LoadingText>
+                  </LoadingContainer>
+                </LoadingMessage>
+              )}
 
-                                    const currentDate = new Date(timestamp).toDateString();
-                                    const previousDate = new Date(roomMessages[index - 1].timestamp).toDateString();
+              {error && (
+                <ErrorMessage>
+                  Erro: {error}
+                </ErrorMessage>
+              )}
 
-                                    return currentDate !== previousDate;
-                                };
+              <ChatBottom ref={chatRef} />
+            </ChatMessages>
 
-                                return (
-                                    <div key={timestamp}>
-                                        {shouldShowDate() && <HRDateSteled date={timestamp} />}
-                                        <Message
-                                            message={msg}
-                                            timestamp={timestamp}
-                                            user={user}
-                                            userImage={''}
-                                            ref={(el) => {
-                                                searchRefs.current[index] = el;
-                                            }}
-                                            isSearchResult={isSearchResult}
-                                            isCurrentSearchResult={isCurrentSearchResult}
-                                        />
-                                    </div>
-                                );
-                            })}
-
-                            <ChatBottom ref={chatRef} />
-                        </ChatMessages>
-
-                        <ChatInput
-                            chatRef={chatRef}
-                            channelName={'wellingtonsilverio'}
-                            channelId={roomId}
-                            userName="Visitante"
-                        />
-                    </>
-                )}
-            </ChatContainer>
-        </Body>
-    );
+            <ChatInput
+              chatRef={chatRef}
+              channelName={'wellingtonsilverio'}
+              channelId={roomId}
+              userName="Visitante"
+            />
+          </>
+        )}
+      </ChatContainer>
+    </Body>
+  );
 }
 
 export default Chat;
@@ -225,12 +255,8 @@ const Body = styled.div`
   flex-grow: 1;
   flex-direction: column;
   margin-top: 60px;
-  padding-top: 8px;
-
   color: #d1d2d3;
-
   background-color: #1b1d21;
-
   overflow: hidden;
 `;
 
@@ -245,8 +271,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px;
-  height: 60px;
+  padding: 8px 16px;
   border-bottom: 1px solid #ffffff22;
   background-color: #1b1d21;
   flex-shrink: 0;
@@ -265,6 +290,7 @@ const ChannelInfo = styled.div`
 
 const ChannelName = styled.h4`
   margin: 0;
+  padding-bottom: 2px;
   font-size: 18px;
   font-weight: 700;
   color: #ffffff;
@@ -303,6 +329,11 @@ const AddTopic = styled.span`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const ApiStatus = styled.span`
+  color: ${props => props.isOnline ? '#4ade80' : '#f87171'};
+  font-size: 11px;
 `;
 
 const HeaderRight = styled.div`
@@ -426,4 +457,33 @@ const HRDateSteled = styled(HRDate)`
 
 const ChatBottom = styled.div`
   margin-bottom: 16px;
+`;
+
+const LoadingMessage = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  margin: 4px 0;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff88;
+  font-size: 14px;
+`;
+
+const LoadingText = styled.span`
+  font-style: italic;
+`;
+
+const ErrorMessage = styled.div`
+  background-color: #f8717122;
+  border-left: 3px solid #f87171;
+  padding: 8px 16px;
+  margin: 4px 0;
+  color: #f87171;
+  font-size: 14px;
+  border-radius: 4px;
 `;

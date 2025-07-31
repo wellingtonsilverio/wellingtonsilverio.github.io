@@ -24,7 +24,7 @@ const POPULAR_EMOJIS = [
 ];
 
 function ChatInput({ channelName, channelId, userName, chatRef }) {
-    const { addMessage } = useChatStore();
+    const { addMessage, loading } = useChatStore();
     const [input, setInput] = useState("");
     const [showEmojis, setShowEmojis] = useState(false);
     const emojiRef = useRef(null);
@@ -41,20 +41,25 @@ function ChatInput({ channelName, channelId, userName, chatRef }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const sendMessage = (e) => {
+    const sendMessage = async (e) => {
         e.preventDefault();
 
-        if (!channelId || !input.trim()) {
+        if (!channelId || !input.trim() || loading) {
             return false;
         }
 
-        addMessage(channelId, userName, input);
-
-        chatRef.current.scrollIntoView({
-            behavior: "smooth",
-        });
-
+        const messageToSend = input.trim();
         setInput("");
+
+        // Scroll para o final após enviar
+        setTimeout(() => {
+            chatRef.current.scrollIntoView({
+                behavior: "smooth",
+            });
+        }, 100);
+
+        // Enviar mensagem para a API
+        await addMessage(channelId, userName, messageToSend);
     };
 
     const handleEmojiClick = (emoji) => {
@@ -73,14 +78,16 @@ function ChatInput({ channelName, channelId, userName, chatRef }) {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder={`Enviar mensagem para #${channelName}`}
+                        disabled={loading}
                     />
                     <InputIcons>
-                        <IconButton type="button">
+                        <IconButton type="button" disabled={loading}>
                             <span>@</span>
                         </IconButton>
                         <EmojiButton
                             type="button"
                             onClick={() => setShowEmojis(!showEmojis)}
+                            disabled={loading}
                         >
                             <EmojiEmotionsIcon />
                         </EmojiButton>
@@ -167,6 +174,11 @@ const InputField = styled.input`
     &::placeholder {
         color: #ffffff66;
     }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 `;
 
 const InputIcons = styled.div`
@@ -187,9 +199,14 @@ const IconButton = styled.button`
     align-items: center;
     justify-content: center;
     
-    &:hover {
+    &:hover:not(:disabled) {
         background-color: #ffffff11;
         color: #ffffff;
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
     
     > .MuiSvgIcon-root {
