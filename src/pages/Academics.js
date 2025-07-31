@@ -19,7 +19,7 @@ function Academics() {
 
   return (
     <Body>
-      <HRDateSteled date="03/01/2012" />
+      <HRDateSteled date="2012-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQHeLGPy-Irjiw/company-logo_100_100/company-logo_100_100/0/1631356443434?e=1756944000&v=beta&t=oEvVCSCxCnTHALpc03fqox7m5NgYUwnVNdBDJhIp-xY"
@@ -43,7 +43,7 @@ function Academics() {
         </div>
       </Container>
 
-      <HRDateSteled date="03/01/2013" />
+      <HRDateSteled date="2013-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQHeLGPy-Irjiw/company-logo_100_100/company-logo_100_100/0/1631356443434?e=1756944000&v=beta&t=oEvVCSCxCnTHALpc03fqox7m5NgYUwnVNdBDJhIp-xY"
@@ -70,7 +70,7 @@ function Academics() {
         </div>
       </Container>
 
-      <HRDateSteled date="03/01/2015" />
+      <HRDateSteled date="2015-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQGkepCvZp_oww/company-logo_100_100/company-logo_100_100/0/1631346230167?e=1756944000&v=beta&t=V8rp4VqVbxVygGLuS8NihmiwW7hkCBhu3ZmE7IK1UWk"
@@ -94,7 +94,7 @@ function Academics() {
         </div>
       </Container>
 
-      <HRDateSteled date="03/01/2019" />
+      <HRDateSteled date="2019-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQGkepCvZp_oww/company-logo_100_100/company-logo_100_100/0/1631346230167?e=1756944000&v=beta&t=V8rp4VqVbxVygGLuS8NihmiwW7hkCBhu3ZmE7IK1UWk"
@@ -196,9 +196,13 @@ const Button = styled.a`
   text-decoration: none;
 
   background-color: transparent;
+  transition: all 0.2s ease;
 
   &:hover {
     cursor: pointer;
+    background-color: #ffffff11;
+    border-color: #5ca0e1;
+    color: #5ca0e1;
   }
 `;
 const Footer = styled.div`

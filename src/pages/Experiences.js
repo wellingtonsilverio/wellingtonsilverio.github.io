@@ -19,7 +19,7 @@ function Experiences() {
 
   return (
     <Body>
-      <HRDateSteled date="12/01/2014" />
+      <HRDateSteled date="2014-12-01" />
       <Container>
         <NoLogo
         />
@@ -41,7 +41,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="3/01/2015" />
+      <HRDateSteled date="2015-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQGkepCvZp_oww/company-logo_200_200/company-logo_200_200/0/1631346230167?e=1756339200&v=beta&t=lJGAU6S7WGxZAgKxZBq2Uk2MFFmgP9ZlWTdTkhzQKzM"
@@ -66,7 +66,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="3/01/2018" />
+      <HRDateSteled date="2018-03-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C560BAQH5IweG49tkWA/company-logo_200_200/company-logo_200_200/0/1630634974179/tecnometrica_estatistica_logo?e=1756339200&v=beta&t=b2zSNhTLn_Ex7eIzV8OujuY1p6n2vqCEv-_JVhhXmn8"
@@ -91,7 +91,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="10/01/2018" />
+      <HRDateSteled date="2018-10-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/D4D0BAQFyOWX7M_SVWg/company-logo_200_200/company-logo_200_200/0/1719601888759/synvia_logo?e=1756339200&v=beta&t=8uWWKGsnX2vxdrf3fpb3brjaDMGbjAV0Slt1AyXvDd0"
@@ -116,7 +116,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="09/01/2019" />
+      <HRDateSteled date="2019-09-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/D4D0BAQH0yWTE9RZ2cQ/company-logo_200_200/company-logo_200_200/0/1666894408173/letrus_logo?e=1756339200&v=beta&t=NKeuyUBTevuc1U7intg8DZlfHfnObdKV8PgFHFIqAMQ"
@@ -141,7 +141,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="05/01/2021" />
+      <HRDateSteled date="2021-05-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQELUtnSpNmCkg/company-logo_100_100/company-logo_100_100/0/1630634249320?e=1756339200&v=beta&t=B5TD95uZ4kXiDKysCfupQW0g8x087EUEazhPYXtgHlA"
@@ -166,7 +166,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="12/01/2021" />
+      <HRDateSteled date="2021-12-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4D0BAQFaxPZucbLbRQ/company-logo_200_200/company-logo_200_200/0/1662494525266/cotabest_logo?e=1756339200&v=beta&t=xQhV9AIjRDfZkujZMYfAkmXU7QellrSh85AB5MW4Yfw"
@@ -191,7 +191,7 @@ function Experiences() {
         </div>
       </Container>
 
-      <HRDateSteled date="05/01/2024" />
+      <HRDateSteled date="2024-05-01" />
       <Container>
         <Logo
           src="https://media.licdn.com/dms/image/v2/C4E0BAQHS9HemPwAGBw/company-logo_100_100/company-logo_100_100/0/1630651330142/quality24medical_logo?e=1756339200&v=beta&t=qjOtkhoqlg_01ZDccmh5MGfxdT-3XsZ_GvB3v_iw9Bs"
@@ -303,9 +303,13 @@ const Button = styled.a`
   text-decoration: none;
 
   background-color: transparent;
+  transition: all 0.2s ease;
 
   &:hover {
     cursor: pointer;
+    background-color: #ffffff11;
+    border-color: #5ca0e1;
+    color: #5ca0e1;
   }
 `;
 const Footer = styled.div`

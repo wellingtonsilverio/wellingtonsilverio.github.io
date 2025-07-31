@@ -121,16 +121,4 @@ export const useChatStore = create((set, get) => ({
       return false;
     }
   },
-
-  // Função para obter informações do bot
-  getBotInfo: async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/info`);
-      const data = await response.json();
-      return data.data;
-    } catch (error) {
-      console.error('Erro ao obter informações do bot:', error);
-      return null;
-    }
-  }
 }))

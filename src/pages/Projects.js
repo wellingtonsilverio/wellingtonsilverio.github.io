@@ -20,7 +20,7 @@ function Projects() {
   return (
     <Body>
 
-      <HRDateSteled date="03/01/2021" />
+      <HRDateSteled date="2021-03-01" />
       <Container>
         <ProjectIcon>
           <IconWrapper>
@@ -59,7 +59,7 @@ function Projects() {
         </div>
       </Container>
 
-      <HRDateSteled date="11/01/2023" />
+      <HRDateSteled date="2023-11-01" />
       <Container>
         <ProjectIcon>
           <IconWrapper>

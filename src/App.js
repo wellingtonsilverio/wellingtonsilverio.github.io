@@ -15,6 +15,7 @@ import Budget from './pages/Budget';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Chat from './pages/Chat';
+import { useEffect } from 'react';
 
 
 function App() {
