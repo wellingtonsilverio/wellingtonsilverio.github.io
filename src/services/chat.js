@@ -5,7 +5,7 @@ export const useChatStore = create((set) => ({
     wellingtonsilverio: [
       {
         user: "wellingtonsilverio",
-        message: "Olá, como posso ajudar você?",
+        message: "Olá, tudo bem? Como posso ajudar você hoje?",
         timestamp: new Date().toISOString(),
       }
     ]
